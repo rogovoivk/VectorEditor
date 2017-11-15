@@ -1,0 +1,139 @@
+object Editor: TEditor
+  Left = 1898
+  Height = 961
+  Top = 10
+  Width = 1280
+  Caption = 'Редактор'
+  ClientHeight = 941
+  ClientWidth = 1280
+  Color = clWindow
+  Menu = MMenu
+  OnCreate = FormCreate
+  LCLVersion = '1.6.4.0'
+  object PB: TPaintBox
+    AnchorSideBottom.Control = ToolPanel
+    Cursor = crCross
+    Left = 0
+    Height = 783
+    Top = 136
+    Width = 1258
+    Align = alClient
+    BorderSpacing.Right = 22
+    BorderSpacing.Bottom = 22
+    Color = clNone
+    ParentColor = False
+    OnMouseDown = MouseDown
+    OnMouseMove = MouseMove
+    OnMouseUp = MouseUp
+    OnPaint = FormPaint
+  end
+  object ToolPanel: TPanel
+    Left = 0
+    Height = 136
+    Top = 0
+    Width = 1280
+    Align = alTop
+    ClientHeight = 136
+    ClientWidth = 1280
+    Color = clWhite
+    ParentBidiMode = False
+    ParentColor = False
+    TabOrder = 0
+    OnClick = ToolPanelClick
+    object ButtonPanel: TPanel
+      Left = 16
+      Height = 112
+      Top = 9
+      Width = 336
+      TabOrder = 0
+    end
+    object ZoomSpinEdit: TSpinEdit
+      Left = 944
+      Height = 23
+      Top = 104
+      Width = 125
+      Enabled = False
+      MaxValue = 800
+      MinValue = 1
+      OnChange = ZoomChange
+      TabOrder = 1
+      Value = 100
+    end
+    object Clear: TButton
+      Left = 944
+      Height = 25
+      Top = 8
+      Width = 123
+      Caption = 'Очистить'
+      OnClick = ClearClick
+      TabOrder = 2
+    end
+    object Back: TButton
+      Left = 944
+      Height = 25
+      Top = 38
+      Width = 123
+      Caption = 'Назад'
+      OnClick = BackClick
+      TabOrder = 3
+    end
+    object ZoomLabel: TLabel
+      Left = 920
+      Height = 15
+      Top = 106
+      Width = 22
+      Caption = 'Зум'
+      ParentColor = False
+    end
+    object ShowAllButton: TButton
+      Left = 944
+      Height = 25
+      Top = 72
+      Width = 123
+      Caption = 'Показать все'
+      OnClick = ShowAllButtonClick
+      TabOrder = 4
+    end
+  end
+  object ScrollBarHorizontal: TScrollBar
+    Left = 160
+    Height = 21
+    Top = 918
+    Width = 1098
+    Anchors = [akLeft, akRight, akBottom]
+    Max = 881
+    PageSize = 881
+    TabOrder = 1
+    OnScroll = ScrollBarScroll
+  end
+  object ScrollBarVertical: TScrollBar
+    Left = 1257
+    Height = 919
+    Top = 0
+    Width = 21
+    Anchors = [akTop, akRight, akBottom]
+    Kind = sbVertical
+    Max = 601
+    PageSize = 601
+    TabOrder = 2
+    OnScroll = ScrollBarScroll
+  end
+  object MMenu: TMainMenu
+    left = 152
+    top = 88
+    object MFile: TMenuItem
+      Caption = 'Файл'
+      object MExit: TMenuItem
+        Caption = 'Выход'
+        OnClick = MExitClick
+      end
+    end
+    object MAbout: TMenuItem
+      Caption = 'Описание'
+      object SMAbout: TMenuItem
+        Caption = 'О Программе'
+        OnClick = SMAboutClick
+      end
+    end
+  end
+end
