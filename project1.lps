@@ -8,7 +8,6 @@
       <Unit0>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <CursorPos X="38" Y="17"/>
         <UsageCount Value="31"/>
@@ -21,8 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
-        <TopLine Value="133"/>
-        <CursorPos X="30" Y="143"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="116"/>
+        <CursorPos X="75" Y="155"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -32,7 +32,6 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="FiguresUnit"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="93"/>
         <CursorPos X="42" Y="116"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>
@@ -42,7 +41,6 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ToolsUnit"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="542"/>
         <CursorPos X="5" Y="570"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>
@@ -52,7 +50,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ScaleUnit"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="37"/>
+        <TopLine Value="16"/>
         <CursorPos X="28" Y="65"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
@@ -73,7 +71,6 @@
       <Unit7>
         <Filename Value="utools.pas"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="122"/>
         <CursorPos X="28" Y="150"/>
         <UsageCount Value="16"/>
         <Loaded Value="True"/>
@@ -82,7 +79,6 @@
         <Filename Value="unit1.pas"/>
         <UnitName Value="Unit1"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="128"/>
         <CursorPos X="16" Y="156"/>
         <UsageCount Value="16"/>
         <Loaded Value="True"/>

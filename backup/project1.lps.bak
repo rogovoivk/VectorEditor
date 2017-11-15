@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="10"/>
+    <BuildModes Active="Default"/>
+    <Units Count="10">
+      <Unit0>
+        <Filename Value="project1.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="6"/>
+        <CursorPos X="38" Y="17"/>
+        <UsageCount Value="31"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="mainunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Editor"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="MainUnit"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="133"/>
+        <CursorPos X="30" Y="143"/>
+        <UsageCount Value="31"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="figuresunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="FiguresUnit"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="93"/>
+        <CursorPos X="42" Y="116"/>
+        <UsageCount Value="31"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="toolsunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ToolsUnit"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="542"/>
+        <CursorPos X="5" Y="570"/>
+        <UsageCount Value="31"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="scaleunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ScaleUnit"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="28" Y="65"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\AppData\Local\Temp\Temp4_editor-master (1).zip\editor-master\figuresunit.pas"/>
+        <UnitName Value="FiguresUnit"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\AppData\Local\Temp\Temp4_editor-master (1).zip\editor-master\toolsunit.pas"/>
+        <UnitName Value="ToolsUnit"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <UsageCount Value="9"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="utools.pas"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="122"/>
+        <CursorPos X="28" Y="150"/>
+        <UsageCount Value="16"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="unit1.pas"/>
+        <UnitName Value="Unit1"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="128"/>
+        <CursorPos X="16" Y="156"/>
+        <UsageCount Value="16"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\VecEditor — копия\scaleUnite.pas"/>
+        <UnitName Value="UScale"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="82" Y="2"/>
+        <UsageCount Value="14"/>
+      </Unit9>
+    </Units>
+    <JumpHistory Count="8" HistoryIndex="7">
+      <Position1>
+        <Filename Value="mainunit.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="utools.pas"/>
+        <Caret Line="101" Column="49" TopLine="99"/>
+      </Position2>
+      <Position3>
+        <Filename Value="figuresunit.pas"/>
+        <Caret Line="7" Column="58"/>
+      </Position3>
+      <Position4>
+        <Filename Value="utools.pas"/>
+        <Caret Line="101" Column="49" TopLine="99"/>
+      </Position4>
+      <Position5>
+        <Filename Value="project1.lpr"/>
+      </Position5>
+      <Position6>
+        <Filename Value="figuresunit.pas"/>
+        <Caret Line="19" Column="13"/>
+      </Position6>
+      <Position7>
+        <Filename Value="figuresunit.pas"/>
+        <Caret Line="11" Column="13"/>
+      </Position7>
+      <Position8>
+        <Filename Value="toolsunit.pas"/>
+        <Caret Line="239" Column="2" TopLine="34"/>
+      </Position8>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="scaleunite.pas"/>
+        <Line Value="15"/>
+      </Item1>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>
