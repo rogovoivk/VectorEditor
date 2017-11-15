@@ -152,7 +152,7 @@ end;
 
 procedure TEditor.SMAboutClick(Sender: TObject);
 begin
-  ShowMessage('Роговой Владислав - Б8103б - векторный редактор - тест гита');
+  ShowMessage('Роговой Владислав - Б8103б - векторный редактор');
 end;
 
 procedure TEditor.MouseDown(Sender: TObject; Button: TMouseButton;
