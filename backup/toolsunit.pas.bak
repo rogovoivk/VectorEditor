@@ -62,7 +62,7 @@ type
     Param: array of TParam;
     procedure MouseDown(AX: integer; AY: integer); virtual; abstract;
     procedure MouseMove(X: integer; Y: integer); virtual; abstract;
-    procedure Mouseup(X: integer; Y: integer; ACanvas: TCanvas); virtual; //abstract;
+    procedure Mouseup(X: integer; Y: integer; ACanvas: TCanvas); virtual; abstract;
     procedure ParamListCreate(); virtual; abstract;
     procedure ParamsCreate(Panel: TPanel);
   end;

@@ -204,33 +204,6 @@ begin
   end;
 end;
 
-{ procedure TFigure.DrawSelection(AFigure: TFigure; Canvas: TCanvas);
-var
-  lP,hP, pt1, pt2: TPoint;
-begin
-  Canvas.Pen.Color := clBlack;
-  Canvas.Brush.Color := clWhite;
-  Canvas.Pen.Style := psSolid;
-  Canvas.Brush.Style := bsSolid;
-  Canvas.Pen.Width := 1;
-
-  pt1 := AFigure.Points[0];
-  pt2 := AFigure.Points[1];
-
-  if Pt1.x < Pt2.x then lP.x := Pt1.X else lP.x := Pt2.X;
-  if Pt1.y < Pt2.y then lP.y := Pt1.y else lP.y := Pt2.y;
-
-  if Pt1.x > Pt2.x then hP.x := Pt1.X else hP.x := Pt2.X;
-  if Pt1.y > Pt2.y then hP.x := Pt1.X else hP.x := Pt2.X;
-
-  Canvas.Rectangle(lp.X-5, lP.y-5, lP.x+5, lP.y+5);
-  Canvas.Rectangle(hP.x-5, hP.y-5, hP.x+5, hP.y+5);
-  Canvas.Rectangle(hP.x-5, lP.y-5, hP.x+5, lP.y+5);
-  Canvas.Rectangle(lP.x-5, hP.y-5, lP.x+5, hP.y+5);
-  Canvas.Pen.Style := psDash;
-  Canvas.Frame(lP.x-5, lP.y-5,hP.x+5, hP.y+5);
-end;}
-
 procedure TFigure.DrawSelection(Point1,Point2: TFloatPoint; Canvas: TCanvas);
 var
   a:TFloatPoint;

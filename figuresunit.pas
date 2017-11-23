@@ -20,7 +20,7 @@ type
     Points: array of TFloatPoint;
     procedure Draw(ACanvas: TCanvas); virtual; abstract;
     procedure SetRegion; Virtual; abstract;
-    procedure DrawSelection(Point1,Point2: TFloatPoint; Canvas: TCanvas);  virtual;
+    procedure DrawSelection(AFigure: TFigure; Canvas: TCanvas);  virtual;
   end;
 
   TLittleFigure = class(TFigure)
@@ -204,27 +204,51 @@ begin
   end;
 end;
 
-procedure TFigure.DrawSelection(Point1,Point2: TFloatPoint; Canvas: TCanvas);
+procedure TFigure.DrawSelection(AFigure: TFigure; Canvas: TCanvas);
 var
-  a:TFloatPoint;
+  Point1, Point2, a:TFloatPoint;
+  i: integer;
+  max,min: TFloatPoint;
 begin
-  if (Point1.X>Point2.X) then
+  If length(AFigure.Points) = 2 then begin
+    Point1.X := AFigure.Points[0].X;
+    Point1.Y := AFigure.Points[0].Y;
+    Point2.X := AFigure.Points[1].X;
+    Point2.Y := AFigure.Points[1].Y;
+    if (Point1.X>Point2.X) then
     begin
       a.X:=Point1.X;
       Point1.X:=Point2.X;
       Point2.X:=a.X;
     end;
-  if (Point1.Y>Point2.Y) then
+    if (Point1.Y>Point2.Y) then
     begin
       a.Y:=Point1.Y;
       Point1.Y:=Point2.Y;
       Point2.Y:=a.Y;
     end;
-  Canvas.Pen.Color := clBlack;
-  Canvas.Pen.Width := 1;
-  Canvas.Pen.Style := psDash;
-  Canvas.Frame  (WorldToScreen(Point1).x-5,WorldToScreen(Point1).y-5,
+    Canvas.Pen.Color := clBlack;
+    Canvas.Pen.Width := 1;
+    Canvas.Pen.Style := psDash;
+    Canvas.Frame(WorldToScreen(Point1).x-5,WorldToScreen(Point1).y-5,
                  WorldToScreen(Point2).x+5,WorldToScreen(Point2).y+5);
+
+  end else begin
+    max := AFigure.Points[1];
+    min := AFigure.Points[1];
+    for i:=0 to length(AFigure.Points) do begin
+      if AFigure.Points[i].X > max.x then max.x := AFigure.Points[i].X;
+      if AFigure.Points[i].Y > max.y then max.y := AFigure.Points[i].y;
+      if AFigure.Points[i].X < min.x then min.x := AFigure.Points[i].X;
+      if AFigure.Points[i].Y < min.y then min.y := AFigure.Points[i].Y;
+    end;
+
+    Canvas.Pen.Color := clBlack;
+    Canvas.Pen.Width := 1;
+    Canvas.Pen.Style := psDash;
+    Canvas.Frame(WorldToScreen(min).x-5,WorldToScreen(min).y-5,
+                 WorldToScreen(max).x+5,WorldToScreen(max).y+5);
+  end;
 end;
 
 procedure LineRegion(p1,p2:TPoint;var tempPoints: array of TPoint;Width:integer);

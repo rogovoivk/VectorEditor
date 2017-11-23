@@ -567,21 +567,28 @@ procedure TSelectTool.MouseUp(X: integer; Y: integer; ACanvas: TCanvas);
 var
   i: integer;
   SelectRegion: HRGN;
-  Param_: Integer;
+  ToolRegio: HRGN;
 begin
   SelectRegion := CreateRectRgn((WorldToScreen((Figures[high(Figures)] as TRectangleMagnifier).Points[0]).x),
                                (WorldToScreen((Figures[high(Figures)] as TRectangleMagnifier).Points[0]).y),
                                (WorldToScreen((Figures[high(Figures)] as TRectangleMagnifier).Points[1]).x),
                                (WorldToScreen((Figures[high(Figures)] as TRectangleMagnifier).Points[1]).y));
-  for i:=0 to high(Figures) - 1 do
-  begin
-    Figures[i].SetRegion;
-    if (CombineRgn(SelectRegion,Figures[i].Region, Figures[high(Figures)].Region,RGN_AND) <> NULLREGION) then
-    Begin
-      Figures[i].Selected := True;
+  with Figures[high(Figures)] do begin
+    for i := 0 to high(Figures)-1 do
+    begin
+      DeleteObject(Figures[i].Region);
+      Figures[i].SetRegion;
+      ToolRegio := CreateRectRgn(1,1,2,2);
+      if (CombineRgn(ToolRegio,Figures[i].Region,SelectRegion,RGN_AND) <> NULLREGION) then
+      begin
+        if Figures[i].Selected = false then
+          Figures[i].Selected := true
+        else
+          Figures[i].Selected := false;
+        end;
+      DeleteObject(ToolRegio);
     end;
   end;
-
   SetLength(Figures, Length(figures) - 1);
 end;
 
