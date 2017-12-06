@@ -124,6 +124,18 @@ type
     procedure ParamListCreate(); override;
   end;
 
+  TMoverTool = class(TFigureTool)
+    APoint: TPoint;
+    procedure MouseDown(X: integer;Y: integer); override;
+    procedure MouseMove(X: integer;Y: integer); override;
+    procedure Mouseup(X: integer; Y: integer; ACanvas: TCanvas); override;
+//    procedure ParamListCreate(); override;
+  end;
+
+//procedure TMoverTool.ParamListCreate();
+//begin
+//end;
+
 
 var
   Tool: array of TFigureTool;
@@ -359,7 +371,7 @@ procedure TSelectTool.ParamListCreate();
 begin
 end;
 
-procedure TFigureTool.paramscreate(Panel: TPanel);
+procedure TFigureTool.ParamsCreate(Panel: TPanel);
 var
   i, pos: integer;
 begin
@@ -567,22 +579,55 @@ procedure TSelectTool.MouseUp(X: integer; Y: integer; ACanvas: TCanvas);
 var
   i: integer;
   SelectRegion: HRGN;
-  Param_: Integer;
+  ToolRegio: HRGN;
 begin
   SelectRegion := CreateRectRgn((WorldToScreen((Figures[high(Figures)] as TRectangleMagnifier).Points[0]).x),
                                (WorldToScreen((Figures[high(Figures)] as TRectangleMagnifier).Points[0]).y),
                                (WorldToScreen((Figures[high(Figures)] as TRectangleMagnifier).Points[1]).x),
                                (WorldToScreen((Figures[high(Figures)] as TRectangleMagnifier).Points[1]).y));
-  for i:=0 to high(Figures) - 1 do
-  begin
-    Figures[i].SetRegion;
-    if (CombineRgn(SelectRegion,Figures[i].Region, Figures[high(Figures)].Region,RGN_AND) <> NULLREGION) then
-    Begin
-      Figures[i].Selected := True;
+  with Figures[high(Figures)] do begin
+    for i := 0 to high(Figures)-1 do
+    begin
+      DeleteObject(Figures[i].Region);
+      Figures[i].SetRegion;
+      ToolRegio := CreateRectRgn(1,1,2,2);
+      if (CombineRgn(ToolRegio,Figures[i].Region,SelectRegion,RGN_AND) <> NULLREGION) then
+      begin
+        if Figures[i].Selected = false then
+          Figures[i].Selected := true
+        else
+          Figures[i].Selected := false;
+        end;
+      DeleteObject(ToolRegio);
     end;
   end;
-
   SetLength(Figures, Length(figures) - 1);
+end;
+
+procedure TMoverTool.MouseDown(X: Integer; Y: Integer);
+begin
+  APoint := Point(X,Y);
+End;
+
+procedure TMoverTool.MouseMove(X: Integer; Y: Integer);
+var
+  i, j: integer;
+  P: TPoint;
+begin
+  P.x := x - APoint.x;
+  P.y := y - APoint.y;
+  for i:=0 to High(Figures) do
+  if Figures[i].Selected then
+  for j:=0 to High(Figures[i].Points) do
+  begin
+    Figures[i].Points[j].X := Figures[i].Points[j].X + MoveTo(P).X;
+    Figures[i].Points[j].Y := Figures[i].Points[j].Y + MoveTo(P).Y;
+  end;
+  APoint := Point(X,Y);
+end;
+
+procedure TMoverTool.MouseUp(X: integer; Y: integer; ACanvas: TCanvas);
+begin
 end;
 
 begin
@@ -594,6 +639,7 @@ begin
   RegisterTool(Tmagnifier.Create(), '5.png');
   RegisterTool(TRoundedRectangleTool.Create(), '6.png');
   RegisterTool(TSelectTool.Create(), '7.png');
+  RegisterTool(TMoverTool.Create(), '8.png');
   APenColor := clBlack;
   ABrushColor := clBlack;
   AWidth := 20;

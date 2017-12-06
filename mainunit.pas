@@ -75,7 +75,7 @@ implementation
 
 procedure TEditor.MExitClick(Sender: TObject);
 begin
-  Close();
+Close();
 end;
 
 procedure TEditor.SelectAllClick(Sender: TObject);
@@ -151,8 +151,8 @@ begin
   ToolButton := TSpeedButton.Create(Editor);
   ToolButton.Width := 40;
   ToolButton.Height := 40;
-  ToolButton.Top := (i div 4) * 50;
-  ToolButton.Left := (i mod 4) * 80 ;
+  ToolButton.Top := (i div 5) * 50;
+  ToolButton.Left := (i mod 5) * 60;
   ToolButton.Parent := ButtonPanel;
   ToolButton.Tag := i;
   ToolButton.OnClick := @ButtonsDown;
@@ -180,7 +180,8 @@ begin
   ParamPanel.Height := 120;
   ParamPanel.Parent := ToolPanel;
   CurrentTool.ParamsCreate(ParamPanel);
-  for i := 0 to High(Figures) do Figures[i].Selected := False;
+  for i := 0 to High(Figures) do
+  if not ((Sender as TSpeedbutton).tag = 8) then Figures[i].Selected := False;
   Invalidate;
 end;
 
@@ -222,7 +223,7 @@ var
 begin
   for i := 0 to high(Figures) do begin
   Figures[i].Draw(PB.Canvas);
-  if Figures[i].Selected then Figures[i].DrawSelection(Figures[i], PB.Canvas);
+  if Figures[i].Selected then Figures[i].DrawSelection(Figures[i], PB.Canvas, (Figures[I] AS TLittleFigure).WIDTH);
   end;
   ScrollBarVertical.Max := trunc(MaxPoint.Y);
   ScrollBarVertical.Min := trunc(MinPoint.Y);
@@ -248,8 +249,7 @@ begin
   Invalidate;
 end;
 
-procedure TEditor.MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
-  );
+procedure TEditor.MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if IsDrawing then  begin
     CurrentTool.MouseMove(X, Y);

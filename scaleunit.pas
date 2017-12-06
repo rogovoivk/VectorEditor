@@ -11,6 +11,7 @@ function WorldToScreen(APoint: TFloatPoint): TPoint;
 function ScreenToWorld(APoint: TPoint): TFloatPoint;
 procedure MaxMin(APoint: TFloatPoint);
 procedure RectZoom(AHeight, AWidth: extended; MinPoint, MaxPoint: TFloatPoint);
+function MoveTo(P: TPoint): TFloatPoint;
 
 var
   zoom: double;
@@ -20,6 +21,12 @@ var
   AHeightPB, AWidthPB: extended;
 
 implementation
+
+function MoveTo(P: TPoint): TFloatPoint;
+begin
+  Result.X := (P.x + Offset.x) / Zoom * 100;
+  Result.Y := (P.y + Offset.y) / Zoom * 100;
+end;
 
 
 function ScreenToWorld(APoint: TPoint): TFloatPoint;

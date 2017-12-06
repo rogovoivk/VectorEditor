@@ -124,6 +124,14 @@ type
     procedure ParamListCreate(); override;
   end;
 
+  TMoverTool = class(TFigureTool)
+    APoint: TPoint;
+    procedure MouseDown(X: integer;Y: integer); override;
+    procedure MouseMove(X: integer;Y: integer); override;
+    procedure Mouseup(X: integer; Y: integer; ACanvas: TCanvas); override;
+    procedure ParamListCreate(); override;
+  end;
+
 
 var
   Tool: array of TFigureTool;
@@ -359,7 +367,7 @@ procedure TSelectTool.ParamListCreate();
 begin
 end;
 
-procedure TFigureTool.paramscreate(Panel: TPanel);
+procedure TFigureTool.ParamsCreate(Panel: TPanel);
 var
   i, pos: integer;
 begin
@@ -592,6 +600,36 @@ begin
   SetLength(Figures, Length(figures) - 1);
 end;
 
+procedure TMoverTool.MouseDown(X: Integer; Y: Integer);
+begin
+  APoint := Point(X,Y);
+End;
+
+procedure TMoverTool.MouseMove(X: Integer; Y: Integer);
+var
+  i, j: integer;
+  P: TPoint;
+begin
+  P.x := x - APoint.x;
+  P.y := y - APoint.y;
+  for i:=0 to High(Figures) do
+  if Figures[i].Selected then
+  for j:=0 to High(Figures[i].Points) do
+  begin
+    Figures[i].Points[j].X := Figures[i].Points[j].X + MoveTo(P).X;
+    Figures[i].Points[j].Y := Figures[i].Points[j].Y + MoveTo(P).Y;
+  end;
+  APoint := Point(X,Y);
+end;
+
+procedure TMoverTool.ParamListCreate();
+begin
+end;
+
+procedure TMoverTool.MouseUp(X: integer; Y: integer; ACanvas: TCanvas);
+begin
+end;
+
 begin
   RegisterTool(TPolyLineTool.Create(), '0.png');
   RegisterTool(TLineTool.Create(), '1.png');
@@ -601,6 +639,7 @@ begin
   RegisterTool(Tmagnifier.Create(), '5.png');
   RegisterTool(TRoundedRectangleTool.Create(), '6.png');
   RegisterTool(TSelectTool.Create(), '7.png');
+  RegisterTool(TMoverTool.Create(), '8.png');
   APenColor := clBlack;
   ABrushColor := clBlack;
   AWidth := 20;

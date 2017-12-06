@@ -1,10 +1,10 @@
 object Editor: TEditor
-  Left = 255
-  Height = 534
-  Top = 289
+  Left = 1912
+  Height = 961
+  Top = -8
   Width = 1280
   Caption = 'Редактор'
-  ClientHeight = 514
+  ClientHeight = 941
   ClientWidth = 1280
   Color = clWindow
   Menu = MMenu
@@ -14,7 +14,7 @@ object Editor: TEditor
     AnchorSideBottom.Control = ToolPanel
     Cursor = crCross
     Left = 0
-    Height = 356
+    Height = 783
     Top = 136
     Width = 1258
     Align = alClient
@@ -134,7 +134,7 @@ object Editor: TEditor
   object ScrollBarHorizontal: TScrollBar
     Left = 160
     Height = 21
-    Top = 491
+    Top = 918
     Width = 1098
     Anchors = [akLeft, akRight, akBottom]
     Max = 881
@@ -144,7 +144,7 @@ object Editor: TEditor
   end
   object ScrollBarVertical: TScrollBar
     Left = 1257
-    Height = 492
+    Height = 919
     Top = 0
     Width = 21
     Anchors = [akTop, akRight, akBottom]
