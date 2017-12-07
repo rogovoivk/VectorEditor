@@ -1,25 +1,26 @@
 object Editor: TEditor
-  Left = 1912
-  Height = 961
-  Top = -8
+  Left = 197
+  Height = 534
+  Top = 349
   Width = 1280
   Caption = 'Редактор'
-  ClientHeight = 941
+  ClientHeight = 514
   ClientWidth = 1280
   Color = clWindow
   Menu = MMenu
   OnCreate = FormCreate
   LCLVersion = '1.6.4.0'
   object PB: TPaintBox
-    AnchorSideBottom.Control = ToolPanel
+    AnchorSideTop.Control = ToolPanel
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = ScrollBarHorizontal
     Cursor = crCross
     Left = 0
-    Height = 783
+    Height = 360
     Top = 136
     Width = 1258
     Align = alClient
     BorderSpacing.Right = 22
-    BorderSpacing.Bottom = 22
     Color = clNone
     ParentColor = False
     OnMouseDown = MouseDown
@@ -132,20 +133,24 @@ object Editor: TEditor
     end
   end
   object ScrollBarHorizontal: TScrollBar
-    Left = 160
-    Height = 21
-    Top = 918
-    Width = 1098
-    Anchors = [akLeft, akRight, akBottom]
+    AnchorSideTop.Control = ToolPanel
+    AnchorSideTop.Side = asrBottom
+    Left = 0
+    Height = 18
+    Top = 496
+    Width = 1280
+    Align = alBottom
     Max = 881
     PageSize = 881
     TabOrder = 1
     OnScroll = ScrollBarScroll
   end
   object ScrollBarVertical: TScrollBar
+    AnchorSideTop.Control = ToolPanel
+    AnchorSideTop.Side = asrBottom
     Left = 1257
-    Height = 919
-    Top = 0
+    Height = 356
+    Top = 136
     Width = 21
     Anchors = [akTop, akRight, akBottom]
     Kind = sbVertical

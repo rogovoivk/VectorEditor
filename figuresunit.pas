@@ -16,6 +16,7 @@ type
 
   TFigure = class
     Selected: boolean;
+    Index: Integer;
     Region: HRGN;
     Points: array of TFloatPoint;
     procedure Draw(ACanvas: TCanvas); virtual; abstract;
