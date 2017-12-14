@@ -13,6 +13,11 @@ type
   { TEditor }
 
   TEditor = class(TForm)
+    OpenDialog1: TOpenDialog;
+    Save: TMenuItem;
+    SaveAs: TMenuItem;
+    Open: TMenuItem;
+    SaveDialog: TSaveDialog;
     SelectAll: TButton;
     DeleteSelected: TButton;
     SelectedUp: TButton;
@@ -41,6 +46,9 @@ type
       Shift: TShiftState; X, Y: Integer; ACanvas: TCanvas);
     procedure FormPaint(Sender: TObject);
     procedure MExitClick(Sender: TObject);
+    //procedure OpenClick(Sender: TObject);
+    procedure SaveAsClick(Sender: TObject);
+    procedure SaveClick(Sender: TObject);
     procedure SelectAllClick(Sender: TObject);
     procedure SelectedDownClick(Sender: TObject);
     procedure SelectedUpClick(Sender: TObject);
@@ -65,6 +73,7 @@ var
   Editor: TEditor;
   isDrawing: boolean;
   CurrentTool: TFigureTool;
+  FileName: string;
 
 implementation
 
@@ -76,6 +85,46 @@ implementation
 procedure TEditor.MExitClick(Sender: TObject);
 begin
 Close();
+end;
+
+{procedure TEditor.OpenClick(Sender: TObject);
+begin
+{if not IsSaved then begin
+    Ans:= IsSaveDialog();
+    if Ans = mrYes then
+      MSave.Click
+    else if Ans = mrIgnore then
+      Exit;
+  end;}
+  if (OpenDialog.Execute) and (TFigure.LoadFile(OpenDialog.FileName)) then begin
+     Editor.Caption:= OpenDialog.FileName + ' - ';
+     FileName:= OpenDialog.FileName;
+     IsSaved:= True;
+  end;
+  Invalidate;
+end;}
+
+procedure TEditor.SaveAsClick(Sender: TObject);
+begin
+  if SaveDialog.Execute then
+  begin
+    TFigure.SaveFile(SaveDialog.FileName);
+    Editor.Caption:= SaveDialog.FileName + ' - ' ;
+    FileName:= SaveDialog.FileName;
+    // IsSaved:= True;
+    // SavedToCurrent();
+  end;
+end;
+
+procedure TEditor.SaveClick(Sender: TObject);
+begin
+  if FileName = '' then
+  SaveAs.Click
+  else begin
+    Editor.Caption:= FileName + ' - ' ;
+    //TFigure.SaveFile(FileName);
+    //IsSaved:= True;
+  end;
 end;
 
 procedure TEditor.SelectAllClick(Sender: TObject);

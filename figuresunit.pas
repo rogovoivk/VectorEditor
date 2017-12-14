@@ -5,7 +5,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   Menus, ActnList, GraphMath, ScaleUnit, LCLType, LCLIntf, LCL, StdCtrls, Grids,
-   Buttons, Math, Spin, FPCanvas, TypInfo,  Windows;
+   Buttons, Math, Spin, FPCanvas, TypInfo,  Windows, Laz2_DOM, laz2_XMLRead, laz2_XMLWrite;
 
 type
 
@@ -17,11 +17,15 @@ type
   TFigure = class
     Selected: boolean;
     Index: Integer;
+    CL:TClass;
     Region: HRGN;
     Points: array of TFloatPoint;
+    class procedure SaveFile(FileName: String);
     procedure Draw(ACanvas: TCanvas); virtual; abstract;
     procedure SetRegion; Virtual; abstract;
     procedure DrawSelection(AFigure: TFigure; Canvas: TCanvas; Width: integer);  virtual;
+    function SaveFigure(ADoc: TXMLDocument): TDOMNode; virtual; abstract;
+ //   class function LoadFile(FileName: String): Boolean;
   end;
 
   TLittleFigure = class(TFigure)
@@ -42,43 +46,215 @@ type
   end;
 
   TPolyLine = class(TLittleFigure)
+  private
+    W:integer;
+    PS: TPenStyle;
+    PC: TColor;
+  public
     procedure Draw(ACanvas: TCanvas); override;
     procedure SetRegion; override;
+    function SaveFigure(ADoc: TXMLDocument): TDOMNode; override;
   end;
 
   TLine = class(TLittleFigure)
+  private
+    W:integer;
+    PS: TPenStyle;
+    PC: TColor;
+  public
     procedure Draw(ACanvas: TCanvas); override;
     procedure SetRegion; override;
+    function SaveFigure(ADoc: TXMLDocument): TDOMNode; override;
   end;
 
-  TEllipce = class(TBigFigure)
+  TEllipse = class(TBigFigure)
+  private
+    BC: Tcolor;
+    BS: TBrushStyle;
+    W:integer;
+    PS: TPenStyle;
+    PC: TColor;
+  public
     procedure Draw(ACanvas: TCanvas); override;
     procedure SetRegion; override;
+    function SaveFigure(ADoc: TXMLDocument): TDOMNode; override;
   end;
 
   TRectangle = class(TBigFigure)
+  private
+    BC: Tcolor;
+    BS: TBrushStyle;
+    W:integer;
+    PS: TPenStyle;
+    PC: TColor;
+  public
     procedure Draw(ACanvas: TCanvas); override;
     procedure SetRegion; override;
+    function SaveFigure(ADoc: TXMLDocument): TDOMNode; override;
   end;
 
   TRectangleMagnifier = class(TLittleFigure)
     BrushStyle: TBrushStyle;
     BrushColor: TColor;
     procedure Draw(ACanvas: TCanvas); override;
+    function SaveFigure(ADoc: TXMLDocument): TDOMNode; override;
   end;
 
   TRoundedRectangle = class(TBigFigure)
+  private
+   BC: Tcolor;
+    BS: TBrushStyle;
+    W:integer;
+    PS: TPenStyle;
+    PC: TColor;
+    RX:integer;
+    RY:integer;
+  public
     procedure Draw(ACanvas: TCanvas); override;
     procedure SetRegion; override;
+    function SaveFigure(ADoc: TXMLDocument): TDOMNode; override;
   end;
 
   procedure LineRegion(p1,p2:TPoint;var tempPoints: array of TPoint;Width:integer);
+  function FiguresToXML():TXMLDocument;
 
 var
   Figures: array of TFigure;
   layer: array of Tfigure;
 
+  CtrlButtonState:Boolean=false;
+  IsSaved: boolean = True;
+
 implementation
+
+                        {Save}
+class procedure TFigure.SaveFile(FileName: String);
+  var Doc:TXMLDocument;
+begin
+  if (Copy(FileName, Length(FileName) - 3, 4) <> '.xml') then
+    Exit;
+  try
+    Doc:= FiguresToXML();
+    WriteXML(Doc, FileName);
+    //Saved:= Current;
+  finally
+    Doc.Free;
+  end;
+end;
+
+function FiguresToXML(): TXMLDocument;
+var
+  Doc: TXMLDocument;
+  FiguresNode: TDOMNode;
+  i: Integer;
+begin
+  Doc:= TXMLDocument.Create;
+  FiguresNode:= Doc.CreateElement('Figures');
+  Doc.AppendChild(FiguresNode);
+  FiguresNode:= Doc.DocumentElement;
+  for i:= 0 to High(Figures) do
+  if Figures[i].CL<>TRectangleMagnifier then
+    FiguresNode.AppendChild(Figures[i].SaveFigure(Doc));
+  Result:= Doc;
+end;
+
+function TPolyline.SaveFigure(ADoc: TXMLDocument): TDOMNode;
+var
+  PNode: TDOMNode;
+   i: Integer;
+begin
+  Result:= ADoc.CreateElement('TPolyline');
+  TDOMElement(result).SetAttribute('Width', IntToStr(W));
+  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
+  for i:= 0 to High(Points) do begin
+    PNode:= ADoc.CreateElement('point');
+    TDOMElement(PNode).SetAttribute('x', FloatToStr(Points[i].X));
+    TDOMElement(PNode).SetAttribute('y', FloatToStr(Points[i].Y));
+    Result.AppendChild(PNode);
+  end;
+end;
+
+function Tline.SaveFigure(ADoc: TXMLDocument): TDOMNode;
+var
+  PNode: TDOMNode;
+  i: Integer;
+begin
+  Result:= ADoc.CreateElement('Tline');
+  TDOMElement(result).SetAttribute('Width', IntToStr(W));
+  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
+  for i:= 0 to High(Points) do begin
+    PNode:= ADoc.CreateElement('point');
+    TDOMElement(PNode).SetAttribute('x', FloatToStr(Points[i].X));
+    TDOMElement(PNode).SetAttribute('y', FloatToStr(Points[i].Y));
+    Result.AppendChild(PNode);
+  end;
+end;
+
+function TRectangle.SaveFigure(ADoc: TXMLDocument): TDOMNode;
+var
+  PNode: TDOMNode;
+  i: Integer;
+begin
+  Result:= ADoc.CreateElement('TRectangle');
+  TDOMElement(result).SetAttribute('Width', IntToStr(W));
+  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
+  TDOMElement(result).SetAttribute('BrushStyle',  GetEnumName(TypeInfo(BS), Integer(BS)));
+  TDOMElement(result).SetAttribute('BrushColor', IntToStr(BC));
+
+  for i:= 0 to High(Points) do begin
+    PNode:= ADoc.CreateElement('point');
+    TDOMElement(PNode).SetAttribute('x', FloatToStr(Points[i].X));
+    TDOMElement(PNode).SetAttribute('y', FloatToStr(Points[i].Y));
+    Result.AppendChild(PNode);
+  end;
+end;
+
+function TEllipse.SaveFigure(ADoc: TXMLDocument): TDOMNode;
+var
+  PNode: TDOMNode;
+  i: Integer;
+begin
+  Result:= ADoc.CreateElement('TEllipse');
+  TDOMElement(result).SetAttribute('Width', IntToStr(W));
+  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
+  TDOMElement(result).SetAttribute('BrushStyle',  GetEnumName(TypeInfo(BS), Integer(BS)));
+  TDOMElement(result).SetAttribute('BrushColor', IntToStr(BC));
+  for i:= 0 to High(Points) do begin
+    PNode:= ADoc.CreateElement('point');
+    TDOMElement(PNode).SetAttribute('x', FloatToStr(Points[i].X));
+    TDOMElement(PNode).SetAttribute('y', FloatToStr(Points[i].Y));
+    Result.AppendChild(PNode);
+  end;
+end;
+
+function TRoundedRectangle.SaveFigure(ADoc: TXMLDocument): TDOMNode;
+var
+  PNode: TDOMNode;
+  var i:Int64;
+begin
+  Result:= ADoc.CreateElement('TRoundRect');
+  TDOMElement(result).SetAttribute('Width', IntToStr(W));
+  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
+  TDOMElement(result).SetAttribute('BrushStyle',  GetEnumName(TypeInfo(BS), Integer(BS)));
+  TDOMElement(result).SetAttribute('BrushColor', IntToStr(BC));
+  TDOMElement(result).SetAttribute('RadiusX', IntToStr(RX));
+  TDOMElement(result).SetAttribute('RadiusY', IntToStr(RY));
+  for i:= 0 to High(Points) do begin
+    PNode:= ADoc.CreateElement('point');
+    TDOMElement(PNode).SetAttribute('x', FloatToStr(Points[i].X));
+    TDOMElement(PNode).SetAttribute('y', FloatToStr(Points[i].Y));
+    Result.AppendChild(PNode);
+  end;
+end;
+function TRectangleMagnifier.SaveFigure(ADoc: TXMLDocument): TDOMNode;
+begin
+  Result:= ADoc.CreateElement('');
+end;
 
 procedure TLittleFigure.Draw(ACanvas: TCanvas);
 begin
@@ -109,7 +285,7 @@ begin
     ACanvas.Line(WorldToScreen(Points[i]), WorldToScreen(Points[i + 1]));
 end;
 
-procedure TEllipce.Draw(ACanvas: TCanvas);
+procedure TEllipse.Draw(ACanvas: TCanvas);
 begin
   inherited;
   ACanvas.Ellipse(WorldToScreen(Points[0]).x, WorldToScreen(Points[0]).Y, WorldToScreen(Points[1]).x, WorldToScreen(Points[1]).Y);
@@ -156,7 +332,7 @@ begin
   Region := CreateRectRgn(RegionRect.Left,RegionRect.Top,RegionRect.Right,RegionRect.Bottom);
 end;
 
-procedure TEllipce.SetRegion;
+procedure TEllipse.SetRegion;
 var
   RegionRect: TRect;
 begin

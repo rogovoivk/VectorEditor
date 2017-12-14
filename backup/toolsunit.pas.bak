@@ -141,7 +141,7 @@ var
   APenStyle: TPenStyle;
   ABrushStyle: TBrushStyle;
   SelectedBStyleIndex, SelectedPStyleIndex: integer;
-  SelectToolSelected: Boolean;
+  SelectedCreateParamFlag: Boolean;
   SelectedFigure: TFigureTool;
   Invalidate_: procedure of Object;
 
@@ -608,7 +608,7 @@ begin
   SetLength(AFigure.Points, 2);
   AFigure.Points[0] := ScreenToWorld(Point(X,Y));
   AFigure.Points[1] := ScreenToWorld(Point(X,Y));
-//  SelectedCreateParamFlag := True;
+  SelectedCreateParamFlag := True;
 end;
 
 procedure TSelectTool.MouseMove(X: integer; Y: integer);

@@ -551,7 +551,7 @@ var
   AFigure: TBigFigure;
 begin
   SetLength(Figures, Length(figures) + 1);
-  Figures[high(Figures)] := TEllipce.Create();
+  Figures[high(Figures)] := TEllipse.Create();
   AFigure := (Figures[high(Figures)] as TBigFigure);
   SetLength(AFigure.Points, 2);
   AFigure.Points[0] := ScreenToWorld(Point(X, Y));

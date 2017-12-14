@@ -1,11 +1,11 @@
 object Editor: TEditor
-  Left = 197
+  Left = 1957
   Height = 534
-  Top = 349
+  Top = 237
   Width = 1280
   Caption = 'Редактор'
-  ClientHeight = 514
-  ClientWidth = 1280
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clWindow
   Menu = MMenu
   OnCreate = FormCreate
@@ -15,10 +15,10 @@ object Editor: TEditor
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = ScrollBarHorizontal
     Cursor = crCross
-    Left = 0
-    Height = 360
-    Top = 136
-    Width = 1258
+    Left = -11
+    Height = 0
+    Top = 0
+    Width = 0
     Align = alClient
     BorderSpacing.Right = 22
     Color = clNone
@@ -32,10 +32,10 @@ object Editor: TEditor
     Left = 0
     Height = 136
     Top = 0
-    Width = 1280
+    Width = 0
     Align = alTop
     ClientHeight = 136
-    ClientWidth = 1280
+    ClientWidth = 0
     Color = clWhite
     ParentBidiMode = False
     ParentColor = False
@@ -137,8 +137,8 @@ object Editor: TEditor
     AnchorSideTop.Side = asrBottom
     Left = 0
     Height = 18
-    Top = 496
-    Width = 1280
+    Top = -18
+    Width = 0
     Align = alBottom
     Max = 881
     PageSize = 881
@@ -148,8 +148,8 @@ object Editor: TEditor
   object ScrollBarVertical: TScrollBar
     AnchorSideTop.Control = ToolPanel
     AnchorSideTop.Side = asrBottom
-    Left = 1257
-    Height = 356
+    Left = -23
+    Height = 0
     Top = 136
     Width = 21
     Anchors = [akTop, akRight, akBottom]
@@ -160,10 +160,21 @@ object Editor: TEditor
     OnScroll = ScrollBarScroll
   end
   object MMenu: TMainMenu
-    left = 152
-    top = 88
+    left = 424
+    top = 56
     object MFile: TMenuItem
       Caption = 'Файл'
+      object Save: TMenuItem
+        Caption = 'Сохранить'
+        OnClick = SaveClick
+      end
+      object SaveAs: TMenuItem
+        Caption = 'Сохранить как'
+        OnClick = SaveAsClick
+      end
+      object Open: TMenuItem
+        Caption = 'Открыть'
+      end
       object MExit: TMenuItem
         Caption = 'Выход'
         OnClick = MExitClick
@@ -176,5 +187,13 @@ object Editor: TEditor
         OnClick = SMAboutClick
       end
     end
+  end
+  object SaveDialog: TSaveDialog
+    left = 472
+    top = 56
+  end
+  object OpenDialog1: TOpenDialog
+    left = 520
+    top = 56
   end
 end
