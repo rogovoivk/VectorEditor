@@ -47,6 +47,7 @@ type
       Shift: TShiftState; X, Y: Integer; ACanvas: TCanvas);
     procedure FormPaint(Sender: TObject);
     procedure MExitClick(Sender: TObject);
+    procedure OpenClick(Sender: TObject);
     //procedure OpenClick(Sender: TObject);
     procedure SaveAsClick(Sender: TObject);
     procedure SaveClick(Sender: TObject);
@@ -88,22 +89,16 @@ begin
 Close();
 end;
 
-{procedure TEditor.OpenClick(Sender: TObject);
+
+procedure TEditor.OpenClick(Sender: TObject);
 begin
-{if not IsSaved then begin
-    Ans:= IsSaveDialog();
-    if Ans = mrYes then
-      MSave.Click
-    else if Ans = mrIgnore then
-      Exit;
-  end;}
-  if (OpenDialog.Execute) and (TFigure.LoadFile(OpenDialog.FileName)) then begin
-     Editor.Caption:= OpenDialog.FileName + ' - ';
-     FileName:= OpenDialog.FileName;
+  if (OpenDialog1.Execute) and (TFigure.LoadFile(OpenDialog1.FileName)) then begin
+     Editor.Caption:= OpenDialog1.FileName + ' - ';
+     FileName:= OpenDialog1.FileName;
      IsSaved:= True;
   end;
   Invalidate;
-end;}
+end;
 
 procedure TEditor.SaveAsClick(Sender: TObject);
 begin
@@ -186,7 +181,8 @@ var
   ParamPanel: TPanel;
 begin
   IsDrawing := False;
-  CurrentTool.MouseUp(X, Y, PB.Canvas);
+  Invalidate;
+//  CurrentTool.MouseUp(X, Y, PB.Canvas);
 
   if SelectedCreateParamFlag then begin
     ParamPanel := TPanel.Create(Editor);

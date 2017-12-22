@@ -1,7 +1,7 @@
 object Editor: TEditor
-  Left = 200
+  Left = 275
   Height = 534
-  Top = 237
+  Top = 317
   Width = 1280
   Caption = 'Редактор'
   ClientHeight = 509
@@ -19,11 +19,11 @@ object Editor: TEditor
     AnchorSideBottom.Control = ScrollBarHorizontal
     Cursor = crCross
     Left = 0
-    Height = 355
+    Height = 352
     Top = 136
-    Width = 1258
+    Width = 1257
     Align = alClient
-    BorderSpacing.Right = 22
+    BorderSpacing.Right = 2
     Color = clNone
     ParentColor = False
     OnMouseDown = MouseDown
@@ -136,11 +136,9 @@ object Editor: TEditor
     end
   end
   object ScrollBarHorizontal: TScrollBar
-    AnchorSideTop.Control = ToolPanel
-    AnchorSideTop.Side = asrBottom
     Left = 0
-    Height = 18
-    Top = 491
+    Height = 21
+    Top = 488
     Width = 1280
     Align = alBottom
     Max = 881
@@ -149,13 +147,11 @@ object Editor: TEditor
     OnScroll = ScrollBarScroll
   end
   object ScrollBarVertical: TScrollBar
-    AnchorSideTop.Control = ToolPanel
-    AnchorSideTop.Side = asrBottom
-    Left = -23
-    Height = 0
+    Left = 1259
+    Height = 352
     Top = 136
     Width = 21
-    Anchors = [akTop, akRight, akBottom]
+    Align = alRight
     Kind = sbVertical
     Max = 601
     PageSize = 601
@@ -177,6 +173,7 @@ object Editor: TEditor
       end
       object Open: TMenuItem
         Caption = 'Открыть'
+        OnClick = OpenClick
       end
       object MExit: TMenuItem
         Caption = 'Выход'

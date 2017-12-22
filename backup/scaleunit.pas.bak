@@ -5,14 +5,15 @@ unit ScaleUnit;
 interface
 
 uses
-  Classes, SysUtils, GraphMath, Menus, ActnList,LCLType, LCLIntf, LCL;
+  Classes, SysUtils, GraphMath,Graphics, Menus, ActnList,LCLType, LCLIntf, LCL;
 
 function WorldToScreen(APoint: TFloatPoint): TPoint;
 function ScreenToWorld(APoint: TPoint): TFloatPoint;
 procedure MaxMin(APoint: TFloatPoint);
 procedure RectZoom(AHeight, AWidth: extended; MinPoint, MaxPoint: TFloatPoint);
 function MoveTo(P: TPoint): TFloatPoint;
-
+function CasePenStyle(Index: integer): TPenStyle;
+function CaseBrushStyle(Index: integer): TBrushStyle;
 var
   zoom: double;
   Offset: TPoint;
@@ -22,7 +23,7 @@ var
 
 implementation
 
-function Scrn2Wrld(P: TPoint): TFloatPoint;
+function MoveTo(P: TPoint): TFloatPoint;
 begin
   Result.X := (P.x + Offset.x) / Zoom * 100;
   Result.Y := (P.y + Offset.y) / Zoom * 100;
@@ -70,6 +71,31 @@ begin
     MinPoint.x := APoint.x;
   if (APoint.y < MinPoint.y) then
     MinPoint.y := APoint.y;
+end;
+
+function CasePenStyle(Index: integer): TPenStyle;
+begin
+  case Index of
+    0: Result := psSolid;
+    1: Result := psDash;
+    2: Result := psDot;
+    3: Result := psDashDot;
+    4: Result := psDashDotDot;
+  end;
+end;
+
+function CaseBrushStyle(Index: string): TBrushStyle;
+begin
+  case Index of
+    0: Result := bsSolid;
+    1: Result := bsBDiagonal;
+    2: Result := bsDiagCross;
+    3: Result := bsVertical;
+    4: Result := bsCross;
+    5: Result := bsFDiagonal;
+    6: Result := bsHorizontal;
+    7: Result := bsClear;
+  end;
 end;
 
 begin
