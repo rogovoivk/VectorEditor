@@ -141,12 +141,12 @@ begin
   Result := Doc;
 end;
 
-function TPolyline.SaveFigure(ADoc: TXMLDocument): TDOMNode;
+function TPolyLine.SaveFigure(ADoc: TXMLDocument): TDOMNode;
 var
   PNode: TDOMNode;
   i: integer;
 begin
-  Result := ADoc.CreateElement('TPolyline');
+  Result := ADoc.CreateElement('TPolyLine');
   TDOMElement(Result).SetAttribute('Width', IntToStr(Width));
   TDOMElement(Result).SetAttribute('PenStyle', IntToStr(Ord(PenStyle)));
   TDOMElement(Result).SetAttribute('PenColor', IntToStr(PenColor));
@@ -159,12 +159,12 @@ begin
   end;
 end;
 
-function Tline.SaveFigure(ADoc: TXMLDocument): TDOMNode;
+function TLine.SaveFigure(ADoc: TXMLDocument): TDOMNode;
 var
   PNode: TDOMNode;
   i: integer;
 begin
-  Result := ADoc.CreateElement('Tline');
+  Result := ADoc.CreateElement('TLine');
   TDOMElement(Result).SetAttribute('Width', IntToStr(Width));
   TDOMElement(Result).SetAttribute('PenStyle', IntToStr(Ord(PenStyle)));
   TDOMElement(Result).SetAttribute('PenColor', IntToStr(PenColor));
@@ -186,8 +186,7 @@ begin
   TDOMElement(Result).SetAttribute('Width', IntToStr(Width));
   TDOMElement(Result).SetAttribute('PenStyle', IntToStr(Ord(PenStyle)));
   TDOMElement(Result).SetAttribute('PenColor', IntToStr(PenColor));
-  TDOMElement(Result).SetAttribute('BrushStyle',
-    GetEnumName(TypeInfo(BrushStyle), integer(BrushStyle)));
+  TDOMElement(Result).SetAttribute('BrushStyle', IntToStr(Ord(BrushStyle)));
   TDOMElement(Result).SetAttribute('BrushColor', IntToStr(BrushColor));
 
   for i := 0 to High(Points) do
@@ -210,6 +209,7 @@ begin
   TDOMElement(Result).SetAttribute('PenColor', IntToStr(PenColor));
   TDOMElement(Result).SetAttribute('BrushStyle', IntToStr(Ord(BrushStyle)));
   TDOMElement(Result).SetAttribute('BrushColor', IntToStr(BrushColor));
+
   for i := 0 to High(Points) do
   begin
     PNode := ADoc.CreateElement('point');
@@ -225,7 +225,7 @@ var
 var
   i: int64;
 begin
-  Result := ADoc.CreateElement('TRoundRect');
+  Result := ADoc.CreateElement('TRoundedRectangle');
   TDOMElement(Result).SetAttribute('Width', IntToStr(Width));
   TDOMElement(Result).SetAttribute('PenStyle', IntToStr(Ord(PenStyle)));
   TDOMElement(Result).SetAttribute('PenColor', IntToStr(PenColor));
@@ -360,7 +360,7 @@ begin
   Region := CreatePolygonRgn(RegionPoints, 3, 2);
 end;
 
-procedure TPolyline.SetRegion;
+procedure TPolyLine.SetRegion;
 var
   RegionPoints: array[0..3] of TPoint;
   p1, p2: TPoint;
@@ -517,15 +517,15 @@ begin
   end;
 end;
 
-class function TPolyline.LoadFigure(ANode: TDOMNode): boolean;
+class function TPolyLine.LoadFigure(ANode: TDOMNode): boolean;
 var
-  F: TPolyline;
+  F: TPolyLine;
   i: integer;
   PNode: TDOMNode;
 begin
   try
     SetLength(Figures, Length(Figures) + 1);
-    F := TPolyline.Create;
+    F := TPolyLine.Create;
     f.Width:=strtoint(ANode.Attributes.Item[0].NodeValue);
     f.PenStyle:=CasePenStyle(strtoint(ANode.Attributes.Item[1].NodeValue));
     f.PenStyle:=psSolid;
@@ -594,7 +594,7 @@ begin
     f.PenStyle:=CasePenStyle(strtoint(ANode.Attributes.Item[1].NodeValue));
     f.PenStyle:=psSolid;
     f.BrushStyle:=bsClear;
-   f.PenColor:=strtoint(ANode.Attributes.Item[2].NodeValue);
+    f.PenColor:=strtoint(ANode.Attributes.Item[2].NodeValue);
     f.BrushColor:=strtoint(ANode.Attributes.Item[3].NodeValue);
     f.BrushStyle:=CaseBrushStyle(strtoint(ANode.Attributes.Item[4].NodeValue));
     PNode := ANode;
@@ -617,13 +617,13 @@ end;
 
 class function TLine.LoadFigure(ANode: TDOMNode): boolean;
 var
-  F: Tline;
+  F: TLine;
   i: integer;
   PNode: TDOMNode;
 begin
   try
     SetLength(Figures, Length(Figures) + 1);
-    F := Tline.Create;
+    F := TLine.Create;
     f.Width:=strtoint(ANode.Attributes.Item[0].NodeValue);
     f.PenStyle:=CasePenStyle(strtoint(ANode.Attributes.Item[1].NodeValue));
    // f.BrushStyle:=bsClear;
@@ -654,12 +654,12 @@ begin
     SetLength(Figures, Length(Figures) + 1);
     F := TRoundedRectangle.Create;
     f.Width:=strtoint(ANode.Attributes.Item[0].NodeValue);
-     f.PenStyle:=psSolid;
-    f.BrushStyle:=bsClear;
-    // f.PenStyle:=CasePenStyle(strtoint(ANode.Attributes.Item[1].NodeValue));
+   // f.PenStyle:=psSolid;
+  //  f.BrushStyle:=bsClear;
+    f.PenStyle:=CasePenStyle(strtoint(ANode.Attributes.Item[1].NodeValue));
     f.PenColor:=strtoint(ANode.Attributes.Item[2].NodeValue);
-    f.BrushColor:=strtoint(ANode.Attributes.Item[3].NodeValue);
-  //  f.BrushStyle:=CaseBrushStyle(strtoint(ANode.Attributes.Item[4].NodeValue));
+    f.BrushStyle:=CaseBrushStyle(strtoint(ANode.Attributes.Item[3].NodeValue));
+    f.BrushColor:=strtoint(ANode.Attributes.Item[4].NodeValue);
     f.RoundingRadiusY:=strtoint(ANode.Attributes.Item[5].NodeValue);
     f.RoundingRadiusX:=strtoint(ANode.Attributes.Item[6].NodeValue);
     PNode := ANode;
@@ -682,8 +682,8 @@ end;
 
 
 initialization
-  AddFigure(TPolyline.Create);
-  AddFigure(Tline.Create);
+  AddFigure(TPolyLine.Create);
+  AddFigure(TLine.Create);
   AddFigure(TRectangle.Create);
   AddFigure(TEllipse.Create);
   AddFigure(TRoundedRectangle.Create);

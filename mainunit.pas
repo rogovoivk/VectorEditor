@@ -43,12 +43,12 @@ type
     procedure ClearClick(Sender: TObject);
     procedure DeleteSelectedClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure MenuItem1Click(Sender: TObject);
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer; ACanvas: TCanvas);
     procedure FormPaint(Sender: TObject);
     procedure MExitClick(Sender: TObject);
     procedure OpenClick(Sender: TObject);
-    //procedure OpenClick(Sender: TObject);
     procedure SaveAsClick(Sender: TObject);
     procedure SaveClick(Sender: TObject);
     procedure SelectAllClick(Sender: TObject);
@@ -182,7 +182,7 @@ var
 begin
   IsDrawing := False;
   Invalidate;
-//  CurrentTool.MouseUp(X, Y, PB.Canvas);
+  CurrentTool.MouseUp(X, Y, PB.Canvas);
 
   if SelectedCreateParamFlag then begin
     ParamPanel := TPanel.Create(Editor);
@@ -225,6 +225,11 @@ begin
   ToolButton.Glyph := ToolIcon;
   end;
   Invalidate_:=@Invalidate;
+end;
+
+procedure TEditor.MenuItem1Click(Sender: TObject);
+begin
+
 end;
 
 procedure TEditor.ButtonsDown(Sender: TObject);
