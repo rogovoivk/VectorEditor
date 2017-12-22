@@ -1,24 +1,27 @@
 object Editor: TEditor
-  Left = 1957
+  Left = 200
   Height = 534
   Top = 237
   Width = 1280
   Caption = 'Редактор'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 509
+  ClientWidth = 1280
   Color = clWindow
+  DesignTimePPI = 120
   Menu = MMenu
   OnCreate = FormCreate
-  LCLVersion = '1.6.4.0'
+  Position = poDesktopCenter
+  LCLVersion = '1.8.0.6'
+  WindowState = wsFullScreen
   object PB: TPaintBox
     AnchorSideTop.Control = ToolPanel
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = ScrollBarHorizontal
     Cursor = crCross
-    Left = -11
-    Height = 0
-    Top = 0
-    Width = 0
+    Left = 0
+    Height = 355
+    Top = 136
+    Width = 1258
     Align = alClient
     BorderSpacing.Right = 22
     Color = clNone
@@ -32,10 +35,10 @@ object Editor: TEditor
     Left = 0
     Height = 136
     Top = 0
-    Width = 0
+    Width = 1280
     Align = alTop
     ClientHeight = 136
-    ClientWidth = 0
+    ClientWidth = 1280
     Color = clWhite
     ParentBidiMode = False
     ParentColor = False
@@ -50,7 +53,7 @@ object Editor: TEditor
     end
     object ZoomSpinEdit: TSpinEdit
       Left = 944
-      Height = 23
+      Height = 28
       Top = 104
       Width = 125
       Enabled = False
@@ -80,9 +83,9 @@ object Editor: TEditor
     end
     object ZoomLabel: TLabel
       Left = 920
-      Height = 15
+      Height = 20
       Top = 106
-      Width = 22
+      Width = 26
       Caption = 'Зум'
       ParentColor = False
     end
@@ -137,8 +140,8 @@ object Editor: TEditor
     AnchorSideTop.Side = asrBottom
     Left = 0
     Height = 18
-    Top = -18
-    Width = 0
+    Top = 491
+    Width = 1280
     Align = alBottom
     Max = 881
     PageSize = 881
@@ -189,6 +192,7 @@ object Editor: TEditor
     end
   end
   object SaveDialog: TSaveDialog
+    Filter = 'xml|.xml'
     left = 472
     top = 56
   end

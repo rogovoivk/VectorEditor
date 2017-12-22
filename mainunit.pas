@@ -30,6 +30,7 @@ type
     ScrollBarVertical: TScrollBar;
     ToolPanel: TPanel;
     ButtonPanel: TPanel;
+     // Shift: TShiftState; X, Y: Integer);
     MMenu: TMainMenu;
     MFile: TMenuItem;
     MAbout: TMenuItem;

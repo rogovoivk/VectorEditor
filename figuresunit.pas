@@ -25,7 +25,7 @@ type
     procedure SetRegion; Virtual; abstract;
     procedure DrawSelection(AFigure: TFigure; Canvas: TCanvas; Width: integer);  virtual;
     function SaveFigure(ADoc: TXMLDocument): TDOMNode; virtual; abstract;
- //   class function LoadFile(FileName: String): Boolean;
+    class function LoadFile(FileName: String): Boolean;
   end;
 
   TLittleFigure = class(TFigure)
@@ -121,7 +121,7 @@ type
 var
   Figures: array of TFigure;
   layer: array of Tfigure;
-
+  ClassesFigures: array of TFigure;
   CtrlButtonState:Boolean=false;
   IsSaved: boolean = True;
 
@@ -136,7 +136,6 @@ begin
   try
     Doc:= FiguresToXML();
     WriteXML(Doc, FileName);
-    //Saved:= Current;
   finally
     Doc.Free;
   end;
@@ -153,7 +152,7 @@ begin
   Doc.AppendChild(FiguresNode);
   FiguresNode:= Doc.DocumentElement;
   for i:= 0 to High(Figures) do
-  if Figures[i].CL<>TRectangleMagnifier then
+  if figures[i].CL<>TRectangleMagnifier then
     FiguresNode.AppendChild(Figures[i].SaveFigure(Doc));
   Result:= Doc;
 end;
@@ -165,7 +164,7 @@ var
 begin
   Result:= ADoc.CreateElement('TPolyline');
   TDOMElement(result).SetAttribute('Width', IntToStr(W));
-  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenStyle', inttostr(ord(PenStyle)) );
   TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
   for i:= 0 to High(Points) do begin
     PNode:= ADoc.CreateElement('point');
@@ -182,7 +181,7 @@ var
 begin
   Result:= ADoc.CreateElement('Tline');
   TDOMElement(result).SetAttribute('Width', IntToStr(W));
-  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenStyle',  IntToStr(PC));
   TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
   for i:= 0 to High(Points) do begin
     PNode:= ADoc.CreateElement('point');
@@ -199,7 +198,7 @@ var
 begin
   Result:= ADoc.CreateElement('TRectangle');
   TDOMElement(result).SetAttribute('Width', IntToStr(W));
-  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenStyle', IntToStr(ord(PenStyle)));
   TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
   TDOMElement(result).SetAttribute('BrushStyle',  GetEnumName(TypeInfo(BS), Integer(BS)));
   TDOMElement(result).SetAttribute('BrushColor', IntToStr(BC));
@@ -219,9 +218,9 @@ var
 begin
   Result:= ADoc.CreateElement('TEllipse');
   TDOMElement(result).SetAttribute('Width', IntToStr(W));
-  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
+  TDOMElement(result).SetAttribute('PenStyle',  IntToStr(ord(PenStyle)));
   TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
-  TDOMElement(result).SetAttribute('BrushStyle',  GetEnumName(TypeInfo(BS), Integer(BS)));
+  TDOMElement(result).SetAttribute('BrushStyle',  IntToStr(ord(BrushStyle)));
   TDOMElement(result).SetAttribute('BrushColor', IntToStr(BC));
   for i:= 0 to High(Points) do begin
     PNode:= ADoc.CreateElement('point');
@@ -238,10 +237,10 @@ var
 begin
   Result:= ADoc.CreateElement('TRoundRect');
   TDOMElement(result).SetAttribute('Width', IntToStr(W));
-  TDOMElement(result).SetAttribute('PenStyle',  GetEnumName(TypeInfo(PS), Integer(PS)));
-  TDOMElement(result).SetAttribute('PenColor', IntToStr(PC));
-  TDOMElement(result).SetAttribute('BrushStyle',  GetEnumName(TypeInfo(BS), Integer(BS)));
-  TDOMElement(result).SetAttribute('BrushColor', IntToStr(BC));
+  TDOMElement(result).SetAttribute('PenStyle', IntToStr(ord(PenStyle)));
+  TDOMElement(result).SetAttribute('PenColor', IntToStr(PenColor));
+  TDOMElement(result).SetAttribute('BrushStyle',  IntToStr(ord(BrushStyle)));
+  TDOMElement(result).SetAttribute('BrushColor', IntToStr(BrushColor));
   TDOMElement(result).SetAttribute('RadiusX', IntToStr(RX));
   TDOMElement(result).SetAttribute('RadiusY', IntToStr(RY));
   for i:= 0 to High(Points) do begin
@@ -453,5 +452,16 @@ begin
   end;
 end;
 
+procedure AddFigure(AFigure: TFigure);
 begin
+  SetLength(ClassesFigures, Length(ClassesFigures) + 1);
+  ClassesFigures[High(ClassesFigures)] := AFigure;
+end;
+
+initialization
+    AddFigure(TPolyline.Create);
+  AddFigure(Tline.Create);
+  AddFigure(TRectangle.Create);
+  AddFigure(TEllipse.Create);
+  AddFigure(TRoundedRectangle.Create);
 end.
